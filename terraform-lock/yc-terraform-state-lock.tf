@@ -98,7 +98,7 @@ resource "yandex_ydb_database_serverless" "database" {
   name = "${var.name}-ydb"
 }
 
-# Ожидание после создание YDB
+# Ожидание после создания YDB
 resource "time_sleep" "wait_for_database" {
   create_duration = "60s"
   depends_on      = [yandex_ydb_database_serverless.database]

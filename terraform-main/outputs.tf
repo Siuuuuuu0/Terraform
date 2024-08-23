@@ -56,3 +56,11 @@ output "instance_public_ip_addresses" {
     address.name => address.external_ipv4_address[0].address...
   }
 }
+
+output "serial_port_files" {
+  description = "The Serial port's output files."
+  value = [
+    for instance in yandex_compute_instance.this :
+    "serial_output_${instance.name}.txt"
+  ]
+}

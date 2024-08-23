@@ -9,14 +9,32 @@ locals {
   # subnet_list         = "${flatten(values(var.subnets))}"
 }
 
-# Таймер для отсчёта времени после создания ВМ
+# Таймер для отсчёта 120 секунд после создания ВМ
 resource "time_sleep" "wait_120_seconds" {
   create_duration = "120s"
 
   depends_on = [yandex_compute_instance.this]
 }
 
-# Создание снимка спустя Х количество секунд после создания ВМ 
+# Таймеп для отсчёта 180 секунд после создания ВМ
+resource "time_sleep" "wait_180_seconds" {
+  create_duration = "180s"
+
+  depends_on = [ yandex_compute_instance.this ]
+}
+
+# Вывод последовательного порта через YC CLI спустя 180 секунд после создания ВМ - провижининг заменён на cloud-init
+# resource "terraform_data" "get_serial_output" {
+#   for_each = yandex_compute_instance.this
+
+#   provisioner "local-exec" {
+#     command = "yc compute instance get-serial-port-output --id ${each.value.id} --folder-id ${var.folder_id} > serial_output_${each.value.name}.txt"
+#   }
+
+#   depends_on = [ time_sleep.wait_180_seconds ]
+# }
+
+# Создание снимка спустя 120 секунд после создания ВМ 
 resource "yandex_compute_snapshot" "initial" {
   for_each = yandex_compute_disk.boot_disk
 
@@ -98,6 +116,7 @@ resource "yandex_compute_instance" "this" {
 
   metadata = {
     user-data = templatefile("cloud-init.yaml.tftpl", {
+      vm_name = length(var.zones) > 1 ? "${local.boot_disk_name}-${substr(each.value, -1, 0)}" : local.boot_disk_name,
       ydb_connect_string = yandex_ydb_database_serverless.this.ydb_full_endpoint,
       bucket_domain_name = module.s3.bucket_domain_name
     })
@@ -139,7 +158,7 @@ module "net" {
   ]
 }
 
-# Модуль для создания Бакета
+# Модуль для создания бакета
 module "s3" {
   source = "github.com/terraform-yc-modules/terraform-yc-s3.git?ref=9fc2f832875aefb6051a2aa47b5ecc9a7ea8fde5" # Commit hash for 1.0.2
 

@@ -7,6 +7,9 @@ package_update: false
 package_upgrade: false
 packages:
   - nginx
+output:
+  all: |
+    tee -a /var/log/serial_output${vm_name}.txt
 runcmd: 
   - |
     sudo tee -a /var/www/html/index.nginx-debian.html > /dev/null <<'EOF'
