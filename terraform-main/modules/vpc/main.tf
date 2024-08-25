@@ -29,3 +29,31 @@ module "net" {
     }
   ]
 }
+
+# Создание группы безопасности
+resource "yandex_vpc_security_group" "this" {
+  name        = "example-security-group"
+  description = "Security group for example"
+
+  network_id = module.net.vpc_id
+
+  ingress {
+    description      = "Allow SSH access"
+    protocol         = "TCP"
+    port             = "22"
+    v4_cidr_blocks   = ["192.168.0.0/24"]
+  }
+
+  ingress {
+    description      = "Allow HTTP access"
+    protocol         = "TCP"
+    port            = "80"
+    v4_cidr_blocks   = ["192.168.0.0/24"]
+  }
+
+  egress {
+    description    = "Allow all outbound traffic"
+    protocol       = "ANY"
+    v4_cidr_blocks = ["192.168.0.0/24"]
+  }
+}

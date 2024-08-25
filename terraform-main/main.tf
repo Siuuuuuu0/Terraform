@@ -33,12 +33,8 @@ module "compute" {
   public_subnets     = module.vpc.public_subnets
   nat_ip_addresses   = module.vpc.nat_ip_addresses
   zones              = var.zones
-  instance_resources = var.instance_resources      
-}
-
-variable "folder_id" {
-  description = "Yandex Cloud Folder ID where resources will be created."
-  type        = string
+  instance_resources = var.instance_resources    
+  security_group_ids = [module.vpc.security_group_id]  
 }
 
 # # Таймер для отсчёта 180 секунд после создания ВМ

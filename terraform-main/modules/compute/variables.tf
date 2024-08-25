@@ -87,3 +87,8 @@ variable "image_id" {
   type        = string
   default     = "fd8ba9d5mfvlncknt2kd"
 }
+
+variable "security_group_ids" { 
+  description = "Ids of the security groups"
+  type        = list(string)
+}

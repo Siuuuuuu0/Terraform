@@ -26,8 +26,9 @@ resource "yandex_compute_instance" "this" {
       for subnet in var.public_subnets :
       subnet.zone => subnet.subnet_id
     }[each.value]
-    nat            = true
-    nat_ip_address = var.nat_ip_addresses[each.value]
+    # nat            = true
+    # nat_ip_address = var.nat_ip_addresses[each.value]
+    security_group_ids = var.security_group_ids
   }
 
   metadata = {

@@ -27,7 +27,7 @@ terraform {
 
     endpoints = {
       s3       = "https://storage.yandexcloud.net",
-      dynamodb = "https://docapi.serverless.yandexcloud.net/ru-central1/b1gvd3h37ertmtsq7gr9/etnj0icrf9hd0k30r22u"
+      dynamodb = "https://docapi.serverless.yandexcloud.net/ru-central1/b1gvd3h37ertmtsq7gr9/etnkj9il9dl9pe6vtein"
     }
 
     skip_credentials_validation = true

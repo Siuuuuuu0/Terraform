@@ -1,4 +1,5 @@
 stages:
+  # - test
   - lint
   - validate
   - plan
@@ -37,6 +38,11 @@ before_script:
   - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
   - terraform --version
   - terraform init
+
+# print-env:
+#   stage: test
+#   script:
+#     - printenv
 
 lint:checkov:
   stage: lint

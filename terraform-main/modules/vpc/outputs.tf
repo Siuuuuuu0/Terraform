@@ -25,3 +25,8 @@ output "public_subnets" {
   description = "Public subnets for the VM instances."
   value       = module.net.public_subnets
 }
+
+output "security_group_id" {
+  description = "Id of the security group"
+  value       = yandex_vpc_security_group.this.id
+}

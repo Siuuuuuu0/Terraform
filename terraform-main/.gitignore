@@ -3,4 +3,3 @@
 terraform.tfstate.backup
 terraform.tfstate
 .env
-terraform.tfvars
