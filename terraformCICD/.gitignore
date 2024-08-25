@@ -1,0 +1,8 @@
+.terraform
+.env
+.key.json
+.terraform.lock.hcl
+backend.tf.tmp
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars

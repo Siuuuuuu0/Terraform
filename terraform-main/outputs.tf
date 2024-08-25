@@ -1,35 +1,26 @@
 output "boot_disk_ids" {
   description = "The IDs of the boot disks created for the instances."
-  value = {
-    for disk in yandex_compute_disk.boot_disk :
-    disk.name => disk.id...
-  }
+  value       = module.compute.boot_disk_ids
 }
 
 output "instance_ids" {
   description = "The IDs of the Yandex Compute instances."
-  value = {
-    for instance in yandex_compute_instance.this :
-    instance.name => instance.id...
-  }
+  value       = module.compute.instance_ids
 }
 
 output "subnet_ids" {
   description = "The IDs of the VPC subnets used by the Yandex Compute instances."
-  value = {
-    for cidr_block, subnet_info in module.net.public_subnets :
-    subnet_info.name => subnet_info.subnet_id
-  }
+  value       = module.vpc.subnet_ids
 }
 
 output "ydb_id" {
   description = "The ID of the Yandex Managed Service for YDB instance."
-  value       = yandex_ydb_database_serverless.this.id
+  value       = module.ydb.ydb_id
 }
 
 output "service_account_id" {
   description = "The ID of the Yandex IAM service account."
-  value       = module.s3.storage_admin_service_account_id
+  value       = module.s3.service_account_id
 }
 
 output "bucket_name" {
@@ -51,16 +42,10 @@ output "bucket_name" {
 
 output "instance_public_ip_addresses" {
   description = "The external IP addresses of the instances."
-  value = {
-    for address in yandex_vpc_address.this :
-    address.name => address.external_ipv4_address[0].address...
-  }
+  value       = module.vpc.instance_public_ip_addresses
 }
 
 output "serial_port_files" {
   description = "The Serial port's output files."
-  value = [
-    for instance in yandex_compute_instance.this :
-    "serial_output_${instance.name}.txt"
-  ]
+  value       = module.compute.serial_port_files
 }
